@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import AverageValues from "./components/averageValues/averageValues";
+import Statistics from "./components/statistics/statistics";
+import TopMenu from "./components/topMenu/topMenu";
+import SidebarMenu from "./components/sidebarMenu/sidebarMenu";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <AverageValues/>
+        <div>
+            <SidebarMenu/>
+            <TopMenu/>
+            <Statistics/>
+        </div>
     </div>
   );
 }
