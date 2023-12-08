@@ -1,0 +1,50 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 10px;
+}
+
+body {
+  font-family: Inter, sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.app {
+  margin: 1.5rem;
+}
+
+.main-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+.menu-item {
+  font-size: 1.3rem;
+  font-weight: 400;
+  background-color: #e0e0e0;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.4);
+  transition: all 0.2s;
+}
+.menu-item:hover {
+  background-color: #7f7f7f;
+  color: #fff;
+}
+
+/*# sourceMappingURL=base.css.map */

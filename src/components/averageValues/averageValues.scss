@@ -1,0 +1,41 @@
+@import "src/base";
+.average{
+  display: flex;
+  justify-content: space-between;
+  &__item{
+    display: flex;
+    align-items: center;
+    width: max-content;
+    //flex-direction: column;
+    background-color: $gray-light;
+    padding: 1rem;
+    border-radius: .5rem;
+
+    &--icon{
+      width: 5rem;
+      height: 5rem;
+      margin-left: .5rem;
+    }
+  }
+
+  &__title{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__heading{
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+  &__value{
+    background-color: white;
+    border-radius: .5rem;
+    justify-self: center;
+    padding: .5rem 1rem;
+    font-weight: 400;
+    font-size: 1.5rem;
+  }
+
+}
