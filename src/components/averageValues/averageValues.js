@@ -12,7 +12,7 @@ const AverageValues = () => {
             <div className={"average__item average__temperature"}>
                 <div className={"average__title"}>
                     <p className={"average__heading"}>Average Temperature</p>
-                    <p className={"average__value"}>{temperature}</p>
+                    <p className={"average__value"}>{temperature} &deg;C</p>
                 </div>
                 <img src={temperatureImg}
                      alt={"temperature icon"}
@@ -22,7 +22,7 @@ const AverageValues = () => {
             <div className={"average__item average__humidity"}>
                 <div className={"average__title"}>
                     <p className={"average__heading"}>Average Humidity</p>
-                    <p className={"average__value"}>{humidity}</p>
+                    <p className={"average__value"}>{humidity} %</p>
 
                 </div>
                 <img src={humidityImg}

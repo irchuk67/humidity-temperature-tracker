@@ -48,7 +48,7 @@ const Statistics = ({ type, period, data }) => {
     if (!linePath) {
         return null;
     }
-
+  
     return (
         <div id={'chart'}>
             <h2>{type.toUpperCase()} chart for the {period.toUpperCase()}</h2>

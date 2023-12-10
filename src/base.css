@@ -18,12 +18,12 @@ body {
 }
 
 .app {
-  margin: 1.5rem;
+  margin: 1.5rem 2rem;
 }
 
 .main-wrapper {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: minmax(min-content, 200px) repeat(3, 1fr);
   grid-column-gap: 1.5rem;
   grid-row-gap: 1rem;
   margin-top: 1.5rem;
