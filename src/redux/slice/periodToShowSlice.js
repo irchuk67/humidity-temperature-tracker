@@ -8,23 +8,11 @@ export const PeriodToShowSlice = createSlice({
     name: "periodToShow",
     initialState,
     reducers: {
-        showHour: (state) => {
-            state.period = "hour"
-        },
-        showDay: (state) => {
-            state.period = "day"
-        },
-        showWeek: (state) => {
-            state.period = "week"
-        },
-        showMonth: (state) => {
-            state.period = "month"
-        },
-        showYear: (state) => {
-            state.period = "year"
+        setPeriod: (state, action) => {
+            state.period = action.payload;
         }
     }
 })
 
 export default PeriodToShowSlice.reducer;
-export const {showDay, showHour, showMonth, showWeek, showYear} = PeriodToShowSlice.actions;
+export const {setPeriod} = PeriodToShowSlice.actions;

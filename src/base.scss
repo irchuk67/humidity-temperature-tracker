@@ -8,7 +8,7 @@ $white: #fff;
 *::after{
   margin: 0;
   padding: 0;
-  box-sizing: inherit;
+  box-sizing: border-box;
 }
 
 html{
@@ -25,14 +25,38 @@ body{
 .app{
   margin: 1.5rem auto;
   width: 1400px;
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 .main-wrapper{
-  display: grid;
-  grid-template-columns:  minmax(min-content, 200px) 1fr;
-  grid-column-gap: 1.5rem;
-  grid-row-gap: 1rem;
-  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+
+  &__heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    grid-row: 1/2;
+    grid-column: 1/-1;
+  }
+
+  &__content{
+    display: grid;
+    grid-template-columns:  minmax(min-content, 200px) 1fr;
+    grid-column-gap: 1.5rem;
+    grid-template-rows: min-content 70vh;
+    grid-row-gap: 1rem;
+  }
+
+}
+
+.room-selector{
+  border: none;
+  padding: 1rem 1.5rem;
+  border-radius: .5rem;
+  background-color: $gray-light;
 }
 
 h3{
@@ -47,7 +71,8 @@ h3{
   background-color: $gray-light;
   border-radius: .5rem;
   box-shadow: 0 0 .2rem rgba(0, 0, 0, .4);
- transition: all .2s;
+  transition: all .2s;
+
   &:hover{
     background-color: $gray;
     color: $white;

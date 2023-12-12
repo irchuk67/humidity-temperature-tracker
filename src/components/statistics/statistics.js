@@ -7,7 +7,6 @@ const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
 const Statistics = ({ type, period, data }) => {
     const width = 1000;
     const height = 500;
-
     const axesRef = useRef(null);
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
@@ -52,7 +51,7 @@ const Statistics = ({ type, period, data }) => {
     return (
         <div id={'chart'}>
             <h2>{type.toUpperCase()} chart for the {period.toUpperCase()}</h2>
-            <svg width={width} height={height}>
+            <svg  width={'100%'} height={'100%'}>
                 <g
                     width={boundsWidth}
                     height={boundsHeight}

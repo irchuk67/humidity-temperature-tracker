@@ -1,0 +1,10 @@
+#chart {
+  grid-row-start: 2;
+  grid-column-start: 2;
+}
+#chart h2 {
+  text-align: center;
+  font-size: 2rem;
+}
+
+/*# sourceMappingURL=statistics.css.map */

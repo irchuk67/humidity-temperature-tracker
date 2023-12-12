@@ -1,10 +1,18 @@
+@import "rsuite/dist/rsuite.css";
 .top-menu {
   grid-column: 2/-1;
+  grid-row: 1/2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.top-menu__chart-type {
   display: flex;
   align-items: center;
 }
 .top-menu__item {
   padding: 0.5rem 1rem;
+  margin-top: 0;
 }
 .top-menu__item:not(:last-child) {
   margin-right: 1rem;
