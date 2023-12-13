@@ -5,23 +5,27 @@ const SidebarMenu = ({ changeChartPeriod }) => {
             <p
                 className={'sidebar__item menu-item'}
                 onClick={() => {changeChartPeriod('hour')}}
-            >By hour</p>
+            >For last hour</p>
             <p
                 className={'sidebar__item menu-item'}
                 onClick={() => {changeChartPeriod('day')}}
-            >By day</p>
+            >For last day</p>
             <p
                 className={'sidebar__item menu-item'}
                 onClick={() => {changeChartPeriod('week')}}
-            >By week</p>
+            >For last week</p>
             <p
                 className={'sidebar__item menu-item'}
                 onClick={() => {changeChartPeriod('month')}}
-            >By month</p>
+            >For last month</p>
             <p
                 className={'sidebar__item menu-item'}
                 onClick={() => {changeChartPeriod('year')}}
-            >By year</p>
+            >For last year</p>
+            <p
+                className={'sidebar__item menu-item'}
+                onClick={() => {changeChartPeriod('own period')}}
+            >For own period</p>
         </div>
     )
 }
