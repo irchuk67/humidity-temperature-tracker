@@ -20,6 +20,8 @@ function App() {
     //за замовчуванням беремо температуру за місяць
     const chartType = useSelector(state => state.valueToShow.value);
     const chartPeriod = useSelector(state => state.periodToShow.period);
+    const startDate = useSelector(state => state.periodToShow.startDate);
+    const endDate = useSelector(state => state.periodToShow.endDate);
     const [chartData, setChartData] = useState(temps);
     const rooms = roomArr.data.map(room => <option value={room}>{room}</option>)
 
@@ -29,13 +31,13 @@ function App() {
 
     const changeType = (str) => {
         dispatch(setDataType(str));
-        //відправка запита
-        //setChartData(newDataFromResponse);
     };
 
     const changePeriod = (str) => {
         dispatch(setPeriod(str));
-        //відправка запита
+        // відправка запита
+        // в запит кидаємо startDate, endDate, id of selected room
+
         //тут просто можемо побачити, що графіки нормально переключаються
         //можемо змінити з місяця (за замовчуванням) на тиждень
         if (str === 'week') {
