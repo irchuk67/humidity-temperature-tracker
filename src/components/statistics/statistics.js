@@ -1,16 +1,21 @@
 import './statistics.scss';
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 import * as d3 from 'd3';
 import {datePipe} from "../../helpers/datePipe";
+import {useSelector} from "react-redux";
+import {Loader} from "rsuite";
 
-const MARGIN = { top: 30, right: 30, bottom: 50, left: 50 };
+const MARGIN = {top: 30, right: 30, bottom: 50, left: 50};
 
-const Statistics = ({ type, period, data }) => {
+const Statistics = ({type, period}) => {
     const width = 1000;
     const height = 500;
     const axesRef = useRef(null);
     const boundsWidth = width - MARGIN.right - MARGIN.left;
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
+    const chartData = useSelector(state => state.statistics);
+    const data = chartData.data.data;
+    console.log(chartData);
 
     // Будуємо вісь Y (вісь температури / вологості)
     const [min, max] = d3.extent(data, (d) => d[type]);
@@ -22,8 +27,8 @@ const Statistics = ({ type, period, data }) => {
     // Будуємо вісь X (вісь часу)
     const xScale = d3
         .scaleTime()
-        .domain(d3.extent(data, (d) => d.date))
-        .range([ 0, boundsWidth ]);
+        .domain(d3.extent(data, (d) => d.timestamp))
+        .range([0, boundsWidth]);
 
     // Рендеримо осі X та Y
     useEffect(() => {
@@ -50,7 +55,7 @@ const Statistics = ({ type, period, data }) => {
         svgElement.append("text")
             .attr("text-anchor", "end")
             .attr("transform", "rotate(-90)")
-            .attr("y", -MARGIN.left+10)
+            .attr("y", -MARGIN.left + 10)
             .attr("x", -MARGIN.top + 30)
             .style("fill", d => "#9a6fb0")
             .text(type.toUpperCase() + ' axis ➜');
@@ -61,11 +66,11 @@ const Statistics = ({ type, period, data }) => {
             .data(data)
             .enter();
         tooltip.append("text")
-            .attr("x", d => xScale(d.date))
+            .attr("x", d => xScale(d.timestamp))
             .attr("y", d => yScale(d[type]))
             .style("font-size", 14)
             .style("opacity", 0)
-            .text(d => `${d[type]}${type === 'temperature' ? '°C' : '%'}; ${datePipe(d.date, period)}`)
+            .text(d => `${d[type]}${type === 'temperature' ? '°C' : '%'}; ${datePipe(d.timestamp, period)}`)
             .on("click", e => {
                 e.target.style.opacity = Number(e.target.style.opacity) === 1 ? 0 : 1;
 
@@ -76,7 +81,7 @@ const Statistics = ({ type, period, data }) => {
     // Будуємо лінійний графік
     const lineBuilder = d3
         .line()
-        .x((d) => xScale(d.date))
+        .x((d) => xScale(d.timestamp))
         .y((d) => yScale(d[type]));
     const linePath = lineBuilder(data);
     if (!linePath) {
@@ -89,39 +94,45 @@ const Statistics = ({ type, period, data }) => {
         return (
             <circle
                 key={i}
-                cx={xScale(item.date)}
+                cx={xScale(item.timestamp)}
                 cy={yScale(item[type])}
                 r={4}
                 fill={"#9a6fb0"}
             />
         );
     });
-  
+
     return (
         <div id={'chart'}>
             <h2>{type.toUpperCase()} chart for the {period.toUpperCase()}</h2>
-            <svg  width={'100%'} height={'100%'}>
-                <g
-                    width={boundsWidth}
-                    height={boundsHeight}
-                    transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-                >
-                    <path
-                        d={linePath}
-                        opacity={1}
-                        stroke="#9a6fb0"
-                        fill="none"
-                        strokeWidth={3}
+            {
+                (!chartData.loading && !chartData.error) &&
+                <svg width={'100%'} height={'100%'}>
+                    <g
+                        width={boundsWidth}
+                        height={boundsHeight}
+                        transform={`translate(${[MARGIN.left + 10, MARGIN.top].join(",")})`}
+                    >
+                        <path
+                            d={linePath}
+                            opacity={1}
+                            stroke="#9a6fb0"
+                            fill="none"
+                            strokeWidth={3}
+                        />
+                        {allCircles}
+                    </g>
+                    <g
+                        width={boundsWidth}
+                        height={boundsHeight}
+                        ref={axesRef}
+                        transform={`translate(${[MARGIN.left + 10, MARGIN.top].join(",")})`}
                     />
-                    {allCircles}
-                </g>
-                <g
-                    width={boundsWidth}
-                    height={boundsHeight}
-                    ref={axesRef}
-                    transform={`translate(${[MARGIN.left, MARGIN.top].join(",")})`}
-                />
-            </svg>
+                </svg>
+            }
+            {
+                chartData.loading && <Loader size={'lg'}/>
+            }
         </div>
     )
 }

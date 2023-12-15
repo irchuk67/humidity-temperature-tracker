@@ -1,12 +1,11 @@
 import {DateRangePicker} from 'rsuite';
 import './topMenu.scss';
-import {useDispatch, useSelector} from "react-redux";
-import {selectPeriod} from "../../redux/slice/selectedPeriodSlice";
+import { useSelector} from "react-redux";
 
-const TopMenu = ({changeChartType}) => {
-    const dispatch = useDispatch();
-    const selectedPeriod = useSelector(state => state.selectedPeriod.data);
-    const chartPeriod = useSelector(state => state.periodToShow.period);
+
+const TopMenu = ({changeChartType, onDatePeriodChange}) => {
+    const chartPeriod = useSelector(state => state.periodToShow);
+
     return (
         <div className={'top-menu'}>
             <div className={'top-menu__chart-type'}>
@@ -20,15 +19,15 @@ const TopMenu = ({changeChartType}) => {
                 >Humidity</p>
             </div>
             {
-                (chartPeriod==="own period") &&
+                (chartPeriod.period === "own period") &&
                 <div className={'top-menu__dateTime'}>
                     <DateRangePicker
                         format="yyyy-MM-dd HH:mm:ss"
-                        value={selectedPeriod}
+                        value={[chartPeriod.startDate, chartPeriod.endDate]}
                         size={'sm'}
                         showOneCalendar
                         placementOverflow={false}
-                        onChange={(value) => dispatch(selectPeriod(value))}
+                        onChange={(value) => onDatePeriodChange(value)}
                     />
                 </div>
             }

@@ -4,7 +4,6 @@ import {AverageValuesSlice} from "./slice/averageValuesSlice";
 import {StatisticToShowSlice} from "./slice/statisticToShowSlice";
 import PeriodToShow from "./slice/periodToShowSlice";
 import ValueToShow from "./slice/dataTypeToShowSlice";
-import SelectedPeriodSlice from "./slice/selectedPeriodSlice";
 import RoomsSlice from "./slice/roomsSlice";
 
 const store = configureStore({
@@ -13,7 +12,6 @@ const store = configureStore({
         statistics: StatisticToShowSlice.reducer,
         periodToShow: PeriodToShow,
         valueToShow: ValueToShow,
-        selectedPeriod: SelectedPeriodSlice,
         rooms: RoomsSlice
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)

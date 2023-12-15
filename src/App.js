@@ -4,29 +4,30 @@ import Statistics from "./components/statistics/statistics";
 import TopMenu from "./components/topMenu/topMenu";
 import SidebarMenu from "./components/sidebarMenu/sidebarMenu";
 import {Loader} from 'rsuite';
-import {temps} from './data';
-import {hums} from './dataH';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchRoomsList, selectRoomToShow} from "./redux/slice/roomsSlice";
 import {setDataType} from "./redux/slice/dataTypeToShowSlice";
-import {setPeriod} from "./redux/slice/periodToShowSlice";
+import {setOwnPeriod, setPeriod} from "./redux/slice/periodToShowSlice";
 import './base.scss';
+import {fetchStatisticData} from "./redux/slice/statisticToShowSlice";
+import {fetchAverageData} from "./redux/slice/averageValuesSlice";
 
 function App() {
     const dispatch = useDispatch();
     const roomArr = useSelector(state => state.rooms)
     const roomToShow = useSelector(state => state.rooms.roomToShow);
-    const selectedPeriod = useSelector(state => state.selectedPeriod)
     //за замовчуванням беремо температуру за місяць
     const chartType = useSelector(state => state.valueToShow.value);
     const chartPeriod = useSelector(state => state.periodToShow.period);
     const startDate = useSelector(state => state.periodToShow.startDate);
     const endDate = useSelector(state => state.periodToShow.endDate);
-    const [chartData, setChartData] = useState(temps);
-    const rooms = roomArr.data.map(room => <option value={room}>{room}</option>)
+    const rooms = roomArr.data.map(room => <option value={room.name} key={room.id}>{room.name}</option>)
 
     useEffect(() => {
+        const requestData = {roomToShow, startDate, endDate};
         dispatch(fetchRoomsList());
+        dispatch(fetchAverageData(requestData));
+        dispatch(fetchStatisticData(requestData));
     }, []);
 
     const changeType = (str) => {
@@ -37,19 +38,31 @@ function App() {
         dispatch(setPeriod(str));
         // відправка запита
         // в запит кидаємо startDate, endDate, id of selected room
-
+        const requestData = {roomToShow, startDate, endDate};
+        dispatch(fetchStatisticData(requestData));
+        dispatch(fetchAverageData(requestData));
         //тут просто можемо побачити, що графіки нормально переключаються
         //можемо змінити з місяця (за замовчуванням) на тиждень
-        if (str === 'week') {
-            setChartData(hums);
-        } else {
-            setChartData(temps);
-        }
+        // if (str === 'week') {
+        //     setChartData(hums);
+        // } else {
+        //     setChartData(temps);
+        // }
 
     };
 
     const handleRoomChange = (event) => {
         dispatch(selectRoomToShow(event.target.value));
+        const requestData = {roomToShow, startDate, endDate};
+        dispatch(fetchStatisticData(requestData));
+        dispatch(fetchAverageData(requestData));
+    }
+
+    const onDatePeriodChange = (values) =>{
+        dispatch(setOwnPeriod(values))
+        const requestData = {roomToShow, startDate, endDate};
+        dispatch(fetchStatisticData(requestData));
+        dispatch(fetchAverageData(requestData));
     }
 
     return (
@@ -59,7 +72,7 @@ function App() {
                 <div className={"main-wrapper__heading"}>
                     <h3>Statistics</h3>
                     {
-                        (!roomArr.loading & !roomArr.err) &&
+                        (!roomArr.loading & !roomArr.error) &&
                         <select
                             className={"room-selector"}
                             value={roomToShow}
@@ -74,8 +87,8 @@ function App() {
                 </div>
                 <div className={'main-wrapper__content'}>
                     <SidebarMenu changeChartPeriod={changePeriod}/>
-                    <TopMenu changeChartType={changeType}/>
-                    <Statistics type={chartType} period={chartPeriod} data={chartData}/>
+                    <TopMenu changeChartType={changeType} onDatePeriodChange={onDatePeriodChange}/>
+                    <Statistics type={chartType} period={chartPeriod}/>
                 </div>
             </div>
         </div>

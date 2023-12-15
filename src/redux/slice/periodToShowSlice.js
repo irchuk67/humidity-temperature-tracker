@@ -35,10 +35,17 @@ export const PeriodToShowSlice = createSlice({
                 state.endDate = new Date();
                 state.startDate = new Date();
                 state.startDate.setHours(state.endDate.getHours() - 1);
+            } else if(action.payload === 'own period'){
+                console.log(action.payload)
             }
+        },
+        setOwnPeriod: (state, action) => {
+            state.period = 'own period'
+            state.startDate = new Date(action.payload[0]);
+            state.endDate = new Date(action.payload[1])
         }
     }
 });
 
 export default PeriodToShowSlice.reducer;
-export const {setPeriod} = PeriodToShowSlice.actions;
+export const {setPeriod, setOwnPeriod} = PeriodToShowSlice.actions;
