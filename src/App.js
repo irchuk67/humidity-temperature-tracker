@@ -12,19 +12,22 @@ import './base.scss';
 import {fetchStatisticData} from "./redux/slice/statisticToShowSlice";
 import {fetchAverageData} from "./redux/slice/averageValuesSlice";
 
+import store from "./redux/store";
+
 function App() {
     const dispatch = useDispatch();
     const roomArr = useSelector(state => state.rooms)
-    const roomToShow = useSelector(state => state.rooms.roomToShow);
+    const location_id = useSelector(state => state.rooms.roomToShow);
     //за замовчуванням беремо температуру за місяць
     const chartType = useSelector(state => state.valueToShow.value);
     const chartPeriod = useSelector(state => state.periodToShow.period);
     const startDate = useSelector(state => state.periodToShow.startDate);
     const endDate = useSelector(state => state.periodToShow.endDate);
-    const rooms = roomArr.data.map(room => <option value={room.name} key={room.id}>{room.name}</option>)
+    const rooms = roomArr.data.map(room => <option value={room.id} key={room.id}>{room.locationName}</option>)
 
     useEffect(() => {
-        const requestData = {roomToShow, startDate, endDate};
+        const requestData = {location_id, startDate, endDate};
+        console.log(requestData)
         dispatch(fetchRoomsList());
         dispatch(fetchAverageData(requestData));
         dispatch(fetchStatisticData(requestData));
@@ -36,31 +39,27 @@ function App() {
 
     const changePeriod = (str) => {
         dispatch(setPeriod(str));
-        // відправка запита
-        // в запит кидаємо startDate, endDate, id of selected room
-        const requestData = {roomToShow, startDate, endDate};
+
+        const requiredSD = store.getState().periodToShow.startDate;
+        const requiredED = store.getState().periodToShow.endDate;
+        const requestData = {location_id, startDate: requiredSD, endDate: requiredED};
         dispatch(fetchStatisticData(requestData));
         dispatch(fetchAverageData(requestData));
-        //тут просто можемо побачити, що графіки нормально переключаються
-        //можемо змінити з місяця (за замовчуванням) на тиждень
-        // if (str === 'week') {
-        //     setChartData(hums);
-        // } else {
-        //     setChartData(temps);
-        // }
 
     };
 
     const handleRoomChange = (event) => {
         dispatch(selectRoomToShow(event.target.value));
-        const requestData = {roomToShow, startDate, endDate};
+
+        const reqRoom = store.getState().rooms.roomToShow;
+        const requestData = {location_id: reqRoom, startDate, endDate};
         dispatch(fetchStatisticData(requestData));
         dispatch(fetchAverageData(requestData));
     }
 
     const onDatePeriodChange = (values) =>{
         dispatch(setOwnPeriod(values))
-        const requestData = {roomToShow, startDate, endDate};
+        const requestData = {location_id, startDate, endDate};
         dispatch(fetchStatisticData(requestData));
         dispatch(fetchAverageData(requestData));
     }
@@ -75,7 +74,7 @@ function App() {
                         (!roomArr.loading & !roomArr.error) &&
                         <select
                             className={"room-selector"}
-                            value={roomToShow}
+                            value={location_id}
                             onChange={handleRoomChange}>
                             {rooms}
                         </select>

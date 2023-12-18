@@ -1,6 +1,7 @@
 import {useSelector} from "react-redux";
 import temperatureImg from "../../assets/temperature_3815449.png";
 import humidityImg from "../../assets/humidity_7687104.png";
+import img314 from "../../assets/thumb_6eb88d.jpg"
 import {Loader} from "rsuite";
 import './averageValues.scss';
 
@@ -8,6 +9,7 @@ const AverageValues = () => {
     const averageValues = useSelector(state => {
         return state.averageValues
     });
+    const location_id = useSelector(state => state.rooms.roomToShow);
 
     return (
         <div className={"average"}>
@@ -19,11 +21,11 @@ const AverageValues = () => {
                             averageValues.loading && <Loader/>
                         }
                         {(!averageValues.loading && !averageValues.error) &&
-                            <span>{averageValues.data.temperature} &deg;C</span>
+                            <span>{Number(averageValues.data.temperature).toFixed(3)} &deg;C</span>
                         }
                     </p>
                 </div>
-                <img src={temperatureImg}
+                <img src={Number(location_id) === 13 ? img314 : temperatureImg}
                      alt={"temperature icon"}
                      className={"average__item--icon"}
                 />
@@ -36,12 +38,12 @@ const AverageValues = () => {
                             averageValues.loading && <Loader/>
                         }
                         {(!averageValues.loading && !averageValues.error) &&
-                            <span>{averageValues.data.humidity} &deg;C</span>
+                            <span>{Number(averageValues.data.humidity).toFixed(3)} &deg;C</span>
                         }
                     </p>
 
                 </div>
-                <img src={humidityImg}
+                <img src={Number(location_id) === 13 ? img314 : humidityImg}
                      alt={"humidity icon"}
                      className={"average__item--icon"}
                 />
