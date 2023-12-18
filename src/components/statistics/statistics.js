@@ -15,7 +15,6 @@ const Statistics = ({type, period}) => {
     const boundsHeight = height - MARGIN.top - MARGIN.bottom;
     const chartData = useSelector(state => state.statistics);
     const data = chartData.data.data;
-    console.log(chartData);
 
     // Будуємо вісь Y (вісь температури / вологості)
     const [min, max] = d3.extent(data, (d) => d[type]);

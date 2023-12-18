@@ -5,7 +5,7 @@ import {getRoomsList} from "../../api/humidityTemperature";
 const initialState = {
     loading: false,
     data: [],
-    roomToShow: "",
+    roomToShow: "1",
     err: ""
 }
 
@@ -23,8 +23,9 @@ const RoomsSlice = createSlice({
     initialState,
     reducers: {
         selectRoomToShow: (state, action) => {
-            const roomToShowIndex = state.data.findIndex(el => el === action.payload);
-            state.roomToShow = state.data[roomToShowIndex];
+            // const roomToShowIndex = state.data.findIndex(el => el.id === action.payload);
+            // state.roomToShow = state.data[roomToShowIndex].id;
+            state.roomToShow = action.payload;
         }
     },
     extraReducers: builder => {
@@ -37,7 +38,7 @@ const RoomsSlice = createSlice({
         builder.addCase(fetchRoomsList.fulfilled, (state, action) => {
             state.loading = false;
             state.data = action.payload;
-            state.roomToShow = action.payload[0];
+            state.roomToShow = action.payload[0].id;
             state.err = ""
         })
 

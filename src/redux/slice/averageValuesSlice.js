@@ -13,8 +13,10 @@ const initialState = {
 export const fetchAverageData = createAsyncThunk(
     'averageValues/getAverageData',
     async (requestData) => {
-        const {locationId, startDate, endDate}  = requestData;
-        const response = await getAverage(locationId, startDate, endDate);
+
+        const {location_id, startDate, endDate}  = requestData;
+        console.log(requestData)
+        const response = await getAverage(location_id, startDate, endDate);
         return response;
     }
 )

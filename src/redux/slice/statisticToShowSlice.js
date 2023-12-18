@@ -13,8 +13,8 @@ export const fetchStatisticData = createAsyncThunk(
     'statistics/getStatisticData',
     async (requestData) => {
         console.log("fetch statistics")
-        const {locationId, startDate, endDate} = requestData;
-        return  getStatisticData(locationId, startDate, endDate).then(response => response);
+        const {location_id, startDate, endDate} = requestData;
+        return  getStatisticData(location_id, startDate, endDate).then(response => response);
     }
 )
 
@@ -34,8 +34,19 @@ export const StatisticToShowSlice = createSlice(
             })
 
             builder.addCase(fetchStatisticData.fulfilled, (state, action) => {
+                const formatted = action.payload.data.map(obj => {
+                    const formattedDate = new Date(...obj.timestamp);
+                    formattedDate.setMonth(formattedDate.getMonth() - 1);
+                    return {
+                        ...obj,
+                        timestamp: new Date(formattedDate)
+                    };
+                })
                 state.loading = false;
-                state.data = action.payload;
+                state.data = {
+                    ...action.payload,
+                    data: formatted
+                };
                 state.error = ""
             })
 

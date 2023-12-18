@@ -22,7 +22,7 @@ export const PeriodToShowSlice = createSlice({
             } else if (action.payload === 'month') {
                 state.endDate = new Date();
                 state.startDate = new Date();
-                state.startDate.setDate(state.endDate.getMonth() - 1);
+                state.startDate.setDate(state.endDate.getDate() - 30);
             } else if (action.payload === 'week') {
                 state.endDate = new Date();
                 state.startDate = new Date();
